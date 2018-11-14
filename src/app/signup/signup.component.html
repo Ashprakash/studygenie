@@ -1,0 +1,38 @@
+<div class="login-page" [@routerTransition]>
+    <div class="row justify-content-md-center">
+        <div class="col-md-4">
+            <h1>Social Visualization with Behaviour logging</h1>
+            <form role="form">
+                <div class="form-content">
+                    <div class="form-group">
+                        <input type="text" [value] = "username" (input)="updateUser($event.target.value)"
+                               class="form-control input-underline input-lg" id="username" placeholder="User Name">
+                    </div>
+                    <div class="form-group">
+                        <input type="text" [value] = "firstname" (input)="updateFirst($event.target.value)"
+                               class="form-control input-underline input-lg" id="firstname" placeholder="First Name">
+                    </div>
+                    <div class="form-group">
+                        <input type="text" [value] = "lastname" (input)="updateLast($event.target.value)"
+                               class="form-control input-underline input-lg" id="lastname" placeholder="Last Name">
+                    </div>
+                    <div class="form-group">
+                        <input type="text" [value] = "email" (input)="updateEmail($event.target.value)"
+                               class="form-control input-underline input-lg" id="email" placeholder="Email">
+                    </div>
+
+                    <div class="form-group">
+                        <input type="text" [value] = "password" (input)="updatePass($event.target.value)"
+                               class="form-control input-underline input-lg" id="password" placeholder="Password">
+                    </div>
+                    <div class="form-group">
+                        <input type="text" [value] = "rpassword" (input)="updateRpass($event.target.value)"
+                               class="form-control input-underline input-lg" id="rpassword" placeholder="Repeat Password">
+                    </div>
+                </div>
+                <a class="btn rounded-btn" (click)="onRegister()"> Register </a>&nbsp;
+                <a class="btn rounded-btn" [routerLink]="['/login']"> Log in </a>
+            </form>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,88 @@
+<div>
+
+    <div class="row">
+        <ngb-pagination [collectionSize]="50" [(page)]="paginationSize" size="lg"></ngb-pagination>
+        &nbsp;&nbsp;&nbsp;&nbsp;
+        <h5 *ngIf="searchText"> Top Results for {{ searchText }}</h5>
+    </div>
+    <div class="row">
+        <div class="col-lg-3">
+            <div class="card mb-3">
+                <div class="card-header">
+                    Search Queries
+                </div>
+                <div class="card-body">
+                    <table class="table table-responsive">
+                        <thead>
+                            <tr style= "cursor: pointer" *ngFor="let each of searchQuery">
+                                <th (click)="search_java(each)">{{each}}</th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-9">
+            <div class="card mb-3">
+                <div class="card-header">
+                    <div class="row">
+                        <input style="width: 600px"
+                               type="text" id="searchTextId"
+                               [(ngModel)]="searchText" name="searchText"
+                               class="form-control"
+                               placeholder="Search for top results">
+                        <button (click)="search_java(searchText)" class="btn btn-primary">
+                            Search
+                        </button>
+                        <button (click)="search_oracle(searchText)" class="btn btn-success">
+                            Search in Oracle TM
+                        </button>
+                    </div>
+                </div>
+                <div *ngIf="result" class="card-body">
+                    <table class="table">
+                        <tbody>
+                            <tr *ngFor="let each of result.all_post">
+                                <td>
+                                    <div [innerHTML]="each.data"></div>
+                                    <div>
+                                        <ng-template #popContent>
+                                            <div>
+                                                <p> {{each.title}} </p>
+                                                <p> Posted on {{each.date}}</p>
+                                                <a href="{{each.url}}"> Go to Post</a>
+                                            </div>
+                                        </ng-template>
+
+                                        <button type="button" class="btn btn-link" [ngbPopover]="popContent"
+                                                placement="bottom-right" #p="ngbPopover">
+                                            More Information
+                                        </button>
+                                    </div>
+                                    <!--<a placement="bottom"-->
+                                        <!--ngbPopover="{{each.url}}" popoverTitle="{{each.title}}">-->
+                                        <!--Posted on {{each.date}}-->
+                                    <!--</a>-->
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--<app-page-header [heading]="'Bootstrap Component'" [icon]="'fa-th-list'"></app-page-header>-->
+    <!--<app-modal></app-modal>-->
+    <!--<app-alert></app-alert>-->
+    <!--<app-buttons></app-buttons>-->
+    <!--<app-collapse></app-collapse>-->
+    <!--<app-date-picker></app-date-picker>-->
+    <!--<app-dropdown></app-dropdown>-->
+    <!--<app-pagination></app-pagination>-->
+    <!--<app-pop-over></app-pop-over>-->
+    <!--<app-progressbar></app-progressbar>-->
+    <!--<app-tabs></app-tabs>-->
+    <!--<app-tooltip></app-tooltip>-->
+    <!--<app-timepicker></app-timepicker>-->
+    <!--<app-rating></app-rating>-->
+</div>
