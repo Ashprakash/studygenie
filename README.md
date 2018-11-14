@@ -1,7 +1,5 @@
 ## [Demo](http://rawgit.com/start-angular/SB-Admin-BS4-Angular-6/master/dist/)
 
-## [Material version](https://github.com/start-javascript/sb-admin-material)
-
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 6.0.0.
 
 ### Introduction
