@@ -9,7 +9,7 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 In order to start the project use:
 
 ```bash
-$ git clone https://github.com/start-angular/SB-Admin-BS4-Angular-6
+$ git clone https://github.com/Ashprakash/studygenie
 $ cd studygenie
 # install the project's dependencies
 $ npm install
