@@ -16,10 +16,10 @@ export class DashboardComponent implements OnInit {
     constructor() {
         this.sliders.push(
             {
-                imagePath: 'assets/images/slider1.jpg',
-                label: 'First slide label',
+                imagePath: 'assets/images/slider1.png',
+                label: 'Data Structures',
                 text:
-                    'Nulla vitae elit libero, a pharetra augue mollis interdum.'
+                    ' Recent notes added, check out'
             },
             {
                 imagePath: 'assets/images/slider2.jpg',
