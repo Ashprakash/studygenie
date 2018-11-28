@@ -4,6 +4,7 @@ import { map } from 'rxjs/operators';
 import { AlertService } from './alert.service';
 import { User } from '../models/user';
 
+
 @Injectable()
 export class AuthenticationService {
     constructor(private http: HttpClient, private alertService: AlertService) { }

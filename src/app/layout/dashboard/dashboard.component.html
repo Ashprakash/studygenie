@@ -14,6 +14,46 @@
         </div>
     </div>
     <hr>
+    <div *ngIf="isCreateNote" class="row">
+        <div class="col-lg-6">
+            <h4>Create a note</h4>
+            <button class="btn btn-primary pull-right" (click)="get_create_note()"> Go Back </button>
+            <hr>
+            <button [className]="each.isSelected ? 'btn btn-success' : 'btn btn-default'"
+                    (click)= "markTagSelected(each)" *ngFor="let each of this.selectedTags">{{each.name}} <span *ngIf="each.isSelected">x</span></button>
+            <form>
+                <div *ngIf="courses" class="form-group">
+                    <label> Select Course </label>
+                    <select class="form-control" #t (change)="get_sub_topic(t.value)">
+                        <option *ngFor="let each of courses" [value]="each.code"> {{each.name}} </option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Select SubTopic</label>
+                    <select class="form-control" #t (change)="select_sub_topic(t.value)" >
+                        <option *ngFor="let each of subTopics" [value]="each.name"> {{each.name}}</option>
+                    </select>
+                </div>
+
+                <fieldset class="form-group">
+                    <label> Title of the note </label>
+                    <input type="text" class="form-control input-underline input-lg" [value] = "title"
+                           placeholder="Enter title" (input)="updateTitle($event.target.value)"
+                           id="title"
+                    >
+                </fieldset>
+                <fieldset class="form-group">
+                    <label>Content </label>
+                    <textarea class="form-control input-underline input-lg"  rows="4"  [value] = "content"
+                              placeholder="Your note description here" id= "content"
+                              (input)="updateContent($event.target.value)"></textarea>
+                </fieldset>
+            </form>
+            <button class="btn btn-primary pull-right" (click)="create_post()"> Create Note </button>
+        </div>
+    </div>
+    <hr/>
     <div class="row">
         <div class="col-xl-3 col-lg-6">
             <app-stat [bgClass]="'primary'" [icon]="'fa-comments'" [count]="26" [label]="'New Comments!'" ></app-stat>
@@ -28,15 +68,22 @@
             <app-stat [bgClass]="'danger'" [icon]="'fa-support'" [count]="13" [label]="'New Tickets!'"></app-stat>
         </div>
     </div>
-    <hr />
+    <hr/>
+    <button *ngIf="isNewNote == false" class="btn btn-primary pull-right" (click)="toggleAddNote()"> Add Sticky Note</button>
+    <button *ngIf="isNewNote" class="btn btn-primary pull-right" (click)="createStickyNote()"> Create Note</button>
+    <button *ngIf="isNewNote" class="btn btn-primary pull-right" (click)="toggleAddNote()"> Cancel</button>
+    <hr/>
+    <hr/>
+    <textarea *ngIf="isNewNote" class="form-control input-underline input-lg"  rows="4"  [value] = "new_note"
+              placeholder="Your new note here" id= "new_note"
+              (input)="updateNewNote($event.target.value)"></textarea>
     <ngb-alert [type]="alert.type" (close)="closeAlert(alert)" *ngFor="let alert of alerts">{{ alert.message }}</ngb-alert>
-    <hr />
-    <div class="row">
+    <div *ngIf="isCreateNote == false" class="row">
         <div class="col-lg-8">
             <div class="card card-default">
                 <div class="card-header">
                     <i class="fa fa-tasks"></i> Notes
-                    <button class="btn btn-primary pull-right"> Create Note </button>
+                    <button class="btn btn-primary pull-right" (click)="get_create_note()"> Create Note </button>
                 </div>
                 <!-- /.card-header -->
                 <app-timeline></app-timeline>
@@ -55,7 +102,6 @@
                 <!-- /.card-body -->
             </div>
             <!-- /.card -->
-
             <app-chat></app-chat>
             <!-- /.card .chat-card -->
         </div>

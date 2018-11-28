@@ -27,7 +27,7 @@ $topnav-background-color: #ffffff;
             background: $topnav-background-color;
             border: 0;
             border-radius: 0;
-            color: #999;
+            color: #060606;
             text-decoration: none;
             .fa {
                 margin-right: 10px;
@@ -43,7 +43,7 @@ $topnav-background-color: #ffffff;
         }
         .header-fields {
             padding-top: 10px;
-        
+
             > .list-group-item:first-child {
                 border-top: 1px solid rgba(255, 255, 255, 0.2);
             }
