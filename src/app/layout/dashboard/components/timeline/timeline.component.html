@@ -5,10 +5,23 @@
                 <li *ngFor="let post of allLeftPost">
                     <div class="timeline-panel">
                         <div class="timeline-heading">
-                            <h4 class="timeline-title"> {{ post.title }}
-                            </h4>
+                            <div class="row">
+                                <div class="col-9">
+                                    <h4 class="timeline-title"> {{ post.title }}</h4>
+                                </div>
+                                <div class="col-2">
+                                    <button [className]=" post.isRead ? 'btn btn-primary' : 'btn btn-default' "
+                                            (click)="markRead(post)"><i class="fa fa-file"></i></button>
+                                </div>
+                            </div>
+
                             <p><small class="text-muted"><i class="fa fa-clock-o"></i> {{ post.created_time | date }}</small>
                             </p>
+                            <div class="row">
+                                <div *ngFor="let tag of post.tags" class="card col-4">
+                                    <i class="h6"> {{ tag }}</i>
+                                </div>
+                            </div>
                         </div>
                         <div class="timeline-body">
                             {{ post.content }}
@@ -29,10 +42,22 @@
                 <li class="timeline-inverted" *ngFor="let post of allRightPost">
                     <div class="timeline-panel">
                         <div class="timeline-heading">
-                            <h4 class="timeline-title"> {{ post.title }}
-                            </h4>
+                            <div class="row">
+                                <div class="col-9">
+                                    <h4 class="timeline-title"> {{ post.title }}</h4>
+                                </div>
+                                <div class="col-2">
+                                    <button [className]=" post.isRead ? 'btn btn-primary' : 'btn btn-default' "
+                                            (click)="markRead(post)"><i class="fa fa-file"></i></button>
+                                </div>
+                            </div>
                             <p><small class="text-muted"><i class="fa fa-clock-o"></i> {{ post.created_time | date }}</small>
                             </p>
+                            <div class="row">
+                                <div *ngFor="let tag of post.tags" class="card col-4">
+                                    <i class="h6"> {{ tag }}</i>
+                                </div>
+                            </div>
                         </div>
                         <div class="timeline-body">
                             {{ post.content }}
@@ -40,6 +65,7 @@
                         <div class="timeline-sidebar">
                             <h4 (click)="clickUpVote(post)" [className]=" post.isUpVoted ? 'text-primary fa fa-thumbs-up' : 'fa fa-thumbs-o-up' "></h4> {{post.upvotes}}
                             <h4 (click)="clickDownVote(post)" [className]=" post.isDownVoted ? 'text-primary fa fa-thumbs-down' : 'fa fa-thumbs-o-down'"></h4> {{post.downvotes}}
+                            <i class="text-primary"> created by {{post.created_user}} </i>
                         </div>
                     </div>
                 </li>

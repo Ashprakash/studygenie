@@ -17,7 +17,33 @@
                     <p class="card-text"> Last name : {{ user.last_name }} </p>
                     <p class="card-text"> Email :  {{ user.email }} </p>
                     <p class="card-text"> Login time : {{ user.logged_in_time | date: 'fullTime' }} </p>
-                </div>
+                    <div *ngFor="let tag of user.tags">
+                        <div class="row">
+                            <div class="col-2 h5">{{tag.name}}</div>
+                            <div class="col-10">
+                                <span *ngIf="tag.target - tag.completed == 0" > Woah! That's great you are an expert already, start writing notes</span>
+
+                                <span *ngIf="(tag.completed/tag.target) < 0.33"> There is no problem in being a novice, it takes {{tag.target - tag.completed}}
+                                    notes to become a conqueror in this topic
+                                </span>
+
+                                <span *ngIf="(tag.completed/tag.target) < 0.66 && (tag.completed/tag.target) > 0.33"> Lot of work left, you still need to read {{tag.target - tag.completed}} notes to catch up
+                                </span>
+
+                                <span *ngIf="(tag.completed/tag.target) > 0.66 && (tag.target - tag.completed != 0)"> You are a pro!!!! Finish {{tag.target - tag.completed}} notes to be an expert
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="progress">
+                            <div [className]="(tag.completed / tag.target) < 0.33 ? 'progress-bar progress-bar-striped bg-danger' :
+                            ((tag.completed / tag.target) < 0.66 ? 'progress-bar progress-bar-striped bg-warning' : 'progress-bar progress-bar-striped bg-success')"
+                                 [style.width]="((tag.completed / tag.target) * 100)+'%'"
+                                 role="progressbar"
+                                 [attr.aria-valuenow]="tag.completed" [attr.aria-valuemin]="0" [attr.aria-valuemax]= "tag.target"></div>
+                        </div>
+                    </div>
+                    </div>
             </div>
         </div>
     </div>
@@ -34,7 +60,7 @@
                         <th>Email</th>
                         <th>Logged In</th>
                         <th>Log in time</th>
-                        <th>Actions </th>
+                        <!--<th>Actions </th>-->
                     </tr>
                     </thead>
                     <tbody *ngFor="let user of allUsers">
@@ -45,54 +71,7 @@
                             <td> {{ user.email }} </td>
                             <td> {{ user.online }} </td>
                             <td> {{ user.logged_in_time | date: 'fullTime' }} </td>
-                            <td>  <button class="btn btn-success" (click)='onClickUser(user.user_name)'> Visualize</button> </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col col-sm-12">
-            <div class="card mb-3">
-                <div class="card-header">
-                    {{emotionBarHeader}} Emotion Chart
-                </div>
-                <div class="card-body">
-                    <canvas baseChart [datasets]="emotionBarChartData" [labels]="emotionBarChartLabels" [options]="barChartOptions" [legend]="barChartLegend" [chartType]="barChartType" (chartHover)="chartHovered($event)" (chartClick)="chartClicked($event)">
-                    </canvas>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col col-sm-12">
-            <div class="card mb-3">
-                <div class="card-header">
-                    {{eventBarHeader}} Event Chart
-                </div>
-                <div class="card-body">
-                    <canvas baseChart [datasets]="eventBarChartData" [labels]="eventBarChartLabels" [options]="barChartOptions" [legend]="barChartLegend" [chartType]="barChartType" (chartHover)="chartHovered($event)" (chartClick)="chartClicked($event)">
-                    </canvas>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col col-sm-12">
-            <div class="card-header"> {{ targetBarHeader }} </div>
-            <div class="card-body table-responsive">
-                <table class="table table-hover table-striped">
-                    <thead>
-                    <tr>
-                        <th>Target</th>
-                        <th>Count</th>
-                    </tr>
-                    </thead>
-                    <tbody *ngFor="let each of currentTargetData">
-                        <tr>
-                            <td> {{ each.name }}</td>
-                            <td> {{ each.value }}</td>
+                            <!--<td>  <button class="btn btn-success" (click)='onClickUser(user.user_name)'> Visualize</button> </td>-->
                         </tr>
                     </tbody>
                 </table>
@@ -100,10 +79,10 @@
         </div>
     </div>
     <!--<div class="row">-->
-        <!--<div class="col col-sm-6">-->
+        <!--<div class="col col-sm-12">-->
             <!--<div class="card mb-3">-->
                 <!--<div class="card-header">-->
-                    <!--{{eventBarHeader}}-->
+                    <!--{{eventBarHeader}} Tags Chart-->
                 <!--</div>-->
                 <!--<div class="card-body">-->
                     <!--<canvas baseChart [datasets]="eventBarChartData" [labels]="eventBarChartLabels" [options]="barChartOptions" [legend]="barChartLegend" [chartType]="barChartType" (chartHover)="chartHovered($event)" (chartClick)="chartClicked($event)">-->
@@ -111,72 +90,15 @@
                 <!--</div>-->
             <!--</div>-->
         <!--</div>-->
-        <!--<div class="col col-sm-6">-->
-            <!--<div class="card mb-3">-->
-                <!--<div class="card-header">-->
-                    <!--{{targetBarHeader}}-->
-                <!--</div>-->
-                <!--<div class="card-body">-->
-                    <!--<canvas baseChart [datasets]="targetBarChartData" [labels]="targetBarChartLabels" [options]="barChartOptions" [legend]="barChartLegend" [chartType]="barChartType" (chartHover)="chartHovered($event)" (chartClick)="chartClicked($event)">-->
-                    <!--</canvas>-->
-                <!--</div>-->
-            <!--</div>-->
-        <!--</div>-->
-        <!--<div class="col col-sm-6">-->
-            <!--<div class="card mb-3">-->
-                <!--<div class="card-header">-->
-                    <!--Doughnut Chart-->
-                <!--</div>-->
-                <!--<div class="card-body">-->
-                    <!--<canvas baseChart height="180px" [data]="doughnutChartData" [labels]="doughnutChartLabels" [chartType]="doughnutChartType" (chartHover)="chartHovered($event)" (chartClick)="chartClicked($event)">-->
-                    <!--</canvas>-->
-                <!--</div>-->
-            <!--</div>-->
-        <!--</div>-->
     <!--</div>-->
     <!--<div class="row">-->
-        <!--<div class="col col-sm-6">-->
+        <!--<div class="col col-sm-12">-->
             <!--<div class="card mb-3">-->
                 <!--<div class="card-header">-->
-                    <!--Radar Chart-->
+                    <!--{{emotionBarHeader}} Post Chart-->
                 <!--</div>-->
                 <!--<div class="card-body">-->
-                    <!--<canvas baseChart height="150px" [datasets]="radarChartData" [labels]="radarChartLabels" [chartType]="radarChartType" (chartHover)="chartHovered($event)" (chartClick)="chartClicked($event)">-->
-                    <!--</canvas>-->
-                <!--</div>-->
-            <!--</div>-->
-        <!--</div>-->
-        <!--<div class="col col-sm-6">-->
-            <!--<div class="card mb-3">-->
-                <!--<div class="card-header">-->
-                    <!--{{pieHeader}}-->
-                <!--</div>-->
-                <!--<div class="card-body">-->
-                    <!--<canvas baseChart height="150px" [data]="pieChartData" [labels]="pieChartLabels" [chartType]="pieChartType" (chartHover)="chartHovered($event)" (chartClick)="chartClicked($event)">-->
-                    <!--</canvas>-->
-                <!--</div>-->
-            <!--</div>-->
-        <!--</div>-->
-    <!--</div>-->
-    <!--<div class="row">-->
-        <!--<div class="col col-sm-6">-->
-            <!--<div class="card mb-3">-->
-                <!--<div class="card-header">-->
-                    <!--Polar Area Chart-->
-                <!--</div>-->
-                <!--<div class="card-body">-->
-                    <!--<canvas baseChart height="130px" [data]="polarAreaChartData" [labels]="polarAreaChartLabels" [legend]="polarAreaLegend" [chartType]="polarAreaChartType" (chartHover)="chartHovered($event)" (chartClick)="chartClicked($event)">-->
-                    <!--</canvas>-->
-                <!--</div>-->
-            <!--</div>-->
-        <!--</div>-->
-        <!--<div class="col col-sm-6">-->
-            <!--<div class="card mb-3">-->
-                <!--<div class="card-header">-->
-                    <!--Line Chart-->
-                <!--</div>-->
-                <!--<div class="card-body">-->
-                    <!--<canvas baseChart height="130" [datasets]="lineChartData" [labels]="lineChartLabels" [options]="lineChartOptions" [colors]="lineChartColors" [legend]="lineChartLegend" [chartType]="lineChartType" (chartHover)="chartHovered($event)" (chartClick)="chartClicked($event)">-->
+                    <!--<canvas baseChart [datasets]="emotionBarChartData" [labels]="emotionBarChartLabels" [options]="barChartOptions" [legend]="barChartLegend" [chartType]="barChartType" (chartHover)="chartHovered($event)" (chartClick)="chartClicked($event)">-->
                     <!--</canvas>-->
                 <!--</div>-->
             <!--</div>-->

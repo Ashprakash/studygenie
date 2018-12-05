@@ -27,13 +27,13 @@ export class ChartsComponent implements OnInit {
     public barChartLegend: boolean = true;
 
 
-    public eventBarChartLabels: string[] = [];
+    public eventBarChartLabels: string[] = ['enqueue', 'dequeue', 'algorithms', 'ml', 'memory', 'LIFO', 'FIFO'];
     public eventBarHeader: string = '';
-    public eventBarChartData: any[] = [{ data: [65, 59, 90, 81, 56, 55, 40], label: 'Series A' }];
+    public eventBarChartData: any[] = [{ data: [5, 3, 2, 6, 2, 2, 7], label: 'Tags chart'}];
 
-    public emotionBarChartLabels: string[] = [];
+    public emotionBarChartLabels: string[] = ['Data Structures', 'Web Programming', 'Algorithms', 'Machine Learning', 'Latex'];
     public emotionBarHeader: string = '';
-    public emotionBarChartData: any[] = [{ data: [65, 59, 90, 81, 56, 55, 40], label: 'Series A' }];
+    public emotionBarChartData: any[] = [{ data: [5, 3, 7, 5, 6], label: 'Posts chart' }];
 
     public targetBarChartLabels: string[] = [];
     public targetBarHeader: string = '';

@@ -1,8 +1,9 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
 import { routerTransition } from '../../router.animations';
 import {Login} from '../../shared/models/login';
 import {AuthenticationService, AnalyticService, UserService} from '../../shared/services';
 import {first} from 'rxjs/operators';
+import {ModalComponent, TimelineComponent} from './components';
 
 @Component({
     selector: 'app-dashboard',
@@ -29,9 +30,16 @@ export class DashboardComponent implements OnInit {
     @Input() new_note: string = '';
     @Input() title: string = '';
     @Input() content: string = '';
+    @Input() search: string = '';
     @Output() titleChange = new EventEmitter<string>();
     @Output() contentChange = new EventEmitter<string>();
     @Output() newNoteChange = new EventEmitter<string>();
+    @Output() searchChange = new EventEmitter<string>();
+    @ViewChild(TimelineComponent) timeline: TimelineComponent;
+    @ViewChild(ModalComponent) modal: ModalComponent;
+
+    public groupSelected: string;
+    public userflag: number;
 
     updateTitle(val: string) {
         this.title = val;
@@ -43,9 +51,14 @@ export class DashboardComponent implements OnInit {
         this.contentChange.emit(this.content);
     }
 
-    updateNewNote(val: string){
+    updateNewNote(val: string) {
         this.new_note = val;
         this.newNoteChange.emit(this.new_note);
+    }
+
+    updateSearch(val: string) {
+        this.search = val;
+        this.searchChange.emit(this.search);
     }
 
     constructor(public analyticService: AnalyticService) {
@@ -91,6 +104,8 @@ export class DashboardComponent implements OnInit {
     }
 
     ngOnInit() {
+        this.groupSelected = '';
+        this.userflag = 0;
         this.isCreateNote = false;
         this.get_courses();
         this.get_sticky_note();
@@ -102,6 +117,10 @@ export class DashboardComponent implements OnInit {
         } else {
             this.isNewNote = false;
         }
+    }
+
+    searchNotes() {
+
     }
 
     createStickyNote() {
@@ -130,6 +149,21 @@ export class DashboardComponent implements OnInit {
                 });
     }
 
+    get_my_notes() {
+        this.userflag = 1;
+        this.get_post();
+    }
+
+    get_trending() {
+        this.userflag = 0;
+        this.get_post();
+    }
+
+    get_recommended() {
+        this.userflag = 0;
+        this.get_post();
+    }
+
     get_sticky_note() {
         this.analyticService.get_sticky_note()
             .pipe(first())
@@ -152,6 +186,10 @@ export class DashboardComponent implements OnInit {
                 },
                 error => {
              });
+    }
+
+    get_post() {
+        this.timeline.get_post(this.groupSelected, this.userflag);
     }
 
     get_create_note() {
@@ -218,7 +256,7 @@ export class DashboardComponent implements OnInit {
         const temp: any = this.selectedTags;
         for(const c of temp) {
             if (c.isSelected) {
-                tags.push(c);
+                tags.push(c.name);
             }
         }
         const post = { 'title' : this.title, 'tags' : tags, 'content': this.content, 'code' : this.selectedCourseCode, 'subTopic': this.selectedSubtopic };
@@ -249,4 +287,16 @@ export class DashboardComponent implements OnInit {
         this.invalidateStickyNote(sticky_note.id);
         this.alerts.splice(index, 1);
     }
+
+    getDashboardApi(): DashboardComponentApi {
+        return {
+            callOpenModel: (post) => {
+                this.modal.open(post);
+            }
+        };
+    }
+}
+
+export interface DashboardComponentApi {
+    callOpenModel: (string) => void;
 }

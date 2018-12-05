@@ -55,17 +55,29 @@
     </div>
     <hr/>
     <div class="row">
+        <div id="chartdiv"></div>
+    </div>
+    <div class="row">
         <div class="col-xl-3 col-lg-6">
-            <app-stat [bgClass]="'primary'" [icon]="'fa-comments'" [count]="26" [label]="'New Comments!'" ></app-stat>
+            <app-stat [bgClass]="'primary'" [icon]="'fa-comments'" [count]="26" [label]="'Messages'" ></app-stat>
         </div>
         <div class="col-xl-3 col-lg-6">
-            <app-stat [bgClass]="'warning'" [icon]="'fa-tasks'" [count]="12" [label]="'New task!'" ></app-stat>
+            <app-stat [bgClass]="'warning'" [icon]="'fa-tasks'" [count]="12" [label]="'Your favorites'" ></app-stat>
         </div>
         <div class="col-xl-3 col-lg-6">
-            <app-stat [bgClass]="'success'" [icon]="'fa-shopping-cart'" [count]="124" [label]="'New Orders!'" ></app-stat>
+            <app-stat [bgClass]="'success'" [icon]="'fa-shopping-cart'" [count]="124" [label]="'Trending'" ></app-stat>
         </div>
         <div class="col-xl-3 col-lg-6">
-            <app-stat [bgClass]="'danger'" [icon]="'fa-support'" [count]="13" [label]="'New Tickets!'"></app-stat>
+            <app-stat [bgClass]="'danger'" [icon]="'fa-support'" [count]="13" [label]="'Recommended'"></app-stat>
+        </div>
+    </div>
+    <hr/>
+    <div style="height:450px; width:100%" class="row">
+        <div class="col-xl-6 col-lg-12">
+            <iframe style="width: 590px; height: 450px;" frameborder="0" src="http://localhost:8080/src/circle_graph/index.html"></iframe>
+        </div>
+        <div class="col-xl-6 col-lg-12">
+            <iframe style="width: 590px; height: 450px;" frameborder="0" src="http://localhost:8080/src/word_cloud/index_word.html"></iframe>
         </div>
     </div>
     <hr/>
@@ -78,15 +90,30 @@
               placeholder="Your new note here" id= "new_note"
               (input)="updateNewNote($event.target.value)"></textarea>
     <ngb-alert [type]="alert.type" (close)="closeAlert(alert)" *ngFor="let alert of alerts">{{ alert.message }}</ngb-alert>
+    <div class="row">
+        <div class="col-lg-6">
+            <input type="text" class="form-control input-underline input-lg" [value] = "search"
+                   placeholder="Search" (input)="updateSearch($event.target.value)"
+                   id="search"
+            >
+        </div>
+        <div class="col-lg-2">
+            <button (click)="searchNotes()" class="btn btn-primary"><i class="fa fa-search"></i></button>
+        </div>
+    </div>
+    <hr>
     <div *ngIf="isCreateNote == false" class="row">
         <div class="col-lg-8">
             <div class="card card-default">
                 <div class="card-header">
-                    <i class="fa fa-tasks"></i> Notes
+                    <i class="fa fa-tasks"> </i> Notes
+                    <i class="btn btn-warning" (click)="get_trending()"> Trending </i> &nbsp; &nbsp;
+                    <i class="btn btn-warning" (click)="get_recommended()"> Recommended </i> &nbsp; &nbsp;
+                    <i class="btn btn-warning" (click)="get_my_notes()">My Notes</i>
                     <button class="btn btn-primary pull-right" (click)="get_create_note()"> Create Note </button>
                 </div>
                 <!-- /.card-header -->
-                <app-timeline></app-timeline>
+                <app-timeline [dashboardApi]= "getDashboardApi()"></app-timeline>
                 <!-- /.card-body -->
             </div>
             <!-- /.card -->
@@ -95,7 +122,7 @@
         <div class="col-lg-4">
             <div class="card card-default mb-3">
                 <div class="card-header">
-                    <i class="fa fa-bell fa-fw"></i> Notifications card
+                    <i class="fa fa-bell fa-fw"></i> Your Activity
                 </div>
                 <!-- /.card-header -->
                 <app-notification></app-notification>

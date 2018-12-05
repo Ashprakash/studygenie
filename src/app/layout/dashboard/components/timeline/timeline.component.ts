@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit, ViewChild, Input} from '@angular/core';
 import {first} from 'rxjs/operators';
 import {AnalyticService} from '../../../../shared/services';
+import {DashboardComponentApi} from '../../dashboard.component';
 
 @Component({
   selector: 'app-timeline',
@@ -11,16 +12,18 @@ export class TimelineComponent implements OnInit {
 
     public allLeftPost: Array<any> = [];
     public allRightPost: Array<any> = [];
+    @Input() dashboardApi: DashboardComponentApi;
     constructor(public analyticService: AnalyticService) { }
 
     ngOnInit() {
-        this.get_post();
+        this.get_post('', 0);
     }
 
-    get_post() {
+    get_post(groupId, user_flag) {
       this.allLeftPost = [];
       this.allRightPost = [];
-      this.analyticService.get_post()
+
+      this.analyticService.get_post(groupId, user_flag)
             .pipe(first())
             .subscribe(
                 data => {
@@ -52,6 +55,14 @@ export class TimelineComponent implements OnInit {
             post.isUpVoted = false;
             post.upvotes = post.upvotes - 1;
         }
+
+        this.analyticService.downvote(post.id)
+            .pipe(first())
+            .subscribe(
+                data => {
+                },
+                error => {
+                });
     }
 
     clickUpVote(post) {
@@ -66,5 +77,26 @@ export class TimelineComponent implements OnInit {
             post.isDownVoted = false;
             post.downvotes = post.downvotes - 1;
         }
+
+        this.analyticService.upvote(post.id)
+            .pipe(first())
+            .subscribe(
+                data => {
+                },
+                error => {
+        });
     }
+
+    markRead(post) {
+        this.analyticService.markRead(post.id)
+            .pipe(first())
+            .subscribe(
+                data => {
+                    post.isRead = true;
+                },
+                error => {
+                });
+    }
+
+
 }

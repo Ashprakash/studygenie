@@ -51,8 +51,8 @@ export class AnalyticService {
         }));
     }
 
-    get_post(){
-        return this.http.get<any>(this.url + '/get-posts', { headers: this.headers })
+    get_post(groupId, user_flag) {
+        return this.http.get<any>(this.url + '/get-posts?groups=' + groupId + '&user_flag=' + user_flag, { headers: this.headers })
             .pipe(map(result => {
                 return result;
         }));
@@ -90,6 +90,62 @@ export class AnalyticService {
 
     invalidate_sticky_note(id) {
         return this.http.post<any>(this.url + '/invalidate/sticky/note', { id: id },
+            { headers: this.headers })
+            .pipe(map(result => {
+                return result;
+            }));
+    }
+
+    create_group(group) {
+        return this.http.post<any>(this.url + '/create/group', group,
+            { headers: this.headers })
+            .pipe(map(result => {
+                return result;
+            }));
+    }
+
+    add_user(group) {
+        return this.http.post<any>(this.url + '/add-user/group', group,
+            { headers: this.headers })
+            .pipe(map(result => {
+                return result;
+            }));
+    }
+
+    find_user_groups() {
+        return this.http.get<any>(this.url + '/get/groups/user',
+            { headers: this.headers })
+            .pipe(map(result => {
+                return result;
+            }));
+    }
+
+    search_group(search) {
+        return this.http.get<any>(this.url + '/get/groups?search=' + search,
+            { headers: this.headers })
+            .pipe(map(result => {
+                return result;
+            }));
+    }
+
+    upvote(id) {
+        return this.http.post<any>(this.url + '/upvote', {'_id' : id},
+            { headers: this.headers })
+            .pipe(map(result => {
+                return result;
+            }));
+    }
+
+    downvote(id) {
+        return this.http.post<any>(this.url + '/downvote', {'_id' : id},
+            { headers: this.headers })
+            .pipe(map(result => {
+                return result;
+            }));
+    }
+
+    markRead(id) {
+        return this.http.post<any>(this.url + '/pin-post', {'_id' : id},
             { headers: this.headers })
             .pipe(map(result => {
                 return result;
